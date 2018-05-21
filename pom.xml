@@ -13,7 +13,7 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <spring.version>5.0.5.RELEASE</spring.version>
+        <spring.version>5.0.6.RELEASE</spring.version>
         <spring.security.version>5.0.4.RELEASE</spring.security.version>
         <postgresql.version>42.2.2</postgresql.version>
         <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
@@ -34,6 +34,12 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
             <version>${spring.security.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
