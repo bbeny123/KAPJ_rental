@@ -16,16 +16,6 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @EnableWebMvc
 public class SpringConfig implements WebMvcConfigurer {
 
-//	@Bean
-//	public ViewResolver viewResolver() {
-//		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-//		viewResolver.setPrefix("/templates/");
-//		viewResolver.setSuffix(".html");
-//		return viewResolver;
-//	}
-
-
-
 	@Bean
 	public SpringResourceTemplateResolver templateResolver() {
 		SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
