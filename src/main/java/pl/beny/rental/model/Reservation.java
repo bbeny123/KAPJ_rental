@@ -7,25 +7,45 @@ import java.time.LocalDate;
 @Table(name = "RESERVATIONS")
 public class Reservation {
 
+    public enum Status {
+        WAITING("WAITING"),
+        ACTIVE("ACTIVE"),
+        CANCELED("CANCELED"),
+        FINISHED("FINISHED");
+
+        private String status;
+
+        Status(String status) {
+            this.status = status;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+    }
+
+    @ManyToOne
+    @JoinColumn(name="RSV_USR_ID", nullable=false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name="RSV_CAR_ID", nullable=false)
+    private Car car;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "RSV_ID")
     private Long id;
-
-    @Column(name = "RSV_USR_ID", nullable = false)
-    private Long usrId;
-
-    @Column(name = "RSV_CAR_ID", nullable = false)
-    private Long carId;
 
     @Column(name = "RSV_DATE_START", nullable = false)
     private LocalDate dateStart;
 
-    @Column(name = "RSV_DATE_END", nullable = false)
+    @Column(name = "RSV_DATE_END")
     private LocalDate dateEnd;
 
-    @Column(name = "RSV_APPROVED", nullable = false)
-    private boolean approved;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "RSV_STATUS", length = 10, nullable = false)
+    private Status status = Status.WAITING;
 
     public Long getId() {
         return id;
@@ -33,22 +53,6 @@ public class Reservation {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getUsrId() {
-        return usrId;
-    }
-
-    public void setUsrId(Long usrId) {
-        this.usrId = usrId;
-    }
-
-    public Long getCarId() {
-        return carId;
-    }
-
-    public void setCarId(Long carId) {
-        this.carId = carId;
     }
 
     public LocalDate getDateStart() {
@@ -67,12 +71,27 @@ public class Reservation {
         this.dateEnd = dateEnd;
     }
 
-    public boolean isApproved() {
-        return approved;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setApproved(boolean approved) {
-        this.approved = approved;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
 }

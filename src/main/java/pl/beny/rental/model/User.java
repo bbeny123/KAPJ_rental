@@ -1,6 +1,8 @@
 package pl.beny.rental.model;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "USERS")
@@ -9,8 +11,15 @@ public class User {
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Token token;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reservation> reservations;
+
+    @ManyToMany
+    @JoinTable(name = "USER_ROLES", joinColumns = @JoinColumn(name = "URL_USR_ID"), inverseJoinColumns = @JoinColumn(name = "URL_ROL_ID"))
+    private Set<Role> roles;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "USR_ID")
     private Long id;
 
@@ -105,5 +114,21 @@ public class User {
 
     public void setToken(Token token) {
         this.token = token;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

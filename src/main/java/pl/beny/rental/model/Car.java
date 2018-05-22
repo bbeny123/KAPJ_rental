@@ -1,13 +1,17 @@
 package pl.beny.rental.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "CARS")
 public class Car {
 
+    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reservation> reservations;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "CAR_ID")
     private Long id;
 
@@ -62,4 +66,13 @@ public class Car {
     public void setPlate(String plate) {
         this.plate = plate;
     }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
 }
