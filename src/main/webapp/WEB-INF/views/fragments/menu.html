@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<div class="container" th:fragment="menu">
+    <form name="logout" th:action="@{/logout}" method="post"><input type="hidden" value="Sign Out"/></form>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#" th:href="@{/}" th:text="#{menu.home}"></a>
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" id="user_reservations" th:href="@{/user-reservations}" sec:authorize="isAuthenticated()" th:text="#{menu.user.reservations}"></a>
+            <a class="nav-item nav-link" id="cars" th:href="@{/cars}" th:text="#{menu.cars}"></a>
+            <a class="nav-item nav-link" id="users" th:href="@{/users}" sec:authorize="hasRole('ADMIN')" th:text="#{menu.users}"></a>
+            <a class="nav-item nav-link" id="reservations" th:href="@{/reservations}" sec:authorize="hasAnyRole('ADMIN','EMPLOYEE')" th:text="#{menu.reservations}"></a>
+            <a class="nav-item nav-link" id="login" th:href="@{/login}" sec:authorize="!isAuthenticated()" th:text="#{menu.login}"></a>
+            <a class="nav-item nav-link" id="register" th:href="@{/register}" sec:authorize="!isAuthenticated()" th:text="#{menu.register}"></a>
+            <a class="nav-item nav-link" id="logout" href="#" sec:authorize="isAuthenticated()" th:text="#{menu.logout}"></a>
+        </div>
+    </nav>
+    <!--/*@thymesVar id="error" type="pl.beny.rental.dto.ErrorResponse"*/-->
+    <label th:if="${error}" th:text="${error.message}" class="text-md-left text-danger font-weight-bold mt-2"></label>
+</div>
+</body>
+</html>
