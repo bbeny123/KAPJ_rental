@@ -9,13 +9,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pl.beny.rental.dto.RegistrationRequest;
+import pl.beny.rental.util.MailUtil;
 
 @Controller
 public class RegistrationController extends BaseController {
 
+	private MailUtil mailUtil;
+
 	@Autowired
-	public RegistrationController(MessageSource messageSource) {
+	public RegistrationController(MessageSource messageSource, MailUtil mailUtil) {
 		super("registration", messageSource);
+		this.mailUtil = mailUtil;
 	}
 
 	@RequestMapping(value = "/register")
@@ -25,6 +29,7 @@ public class RegistrationController extends BaseController {
 
 	@PostMapping(value="/register")
 	public ModelAndView register(Model model, RegistrationRequest user, @RequestParam("g-recaptcha-response") String captcha) {
+		mailUtil.sendActivationEmail(user.getEmail(), "abs");
 		return new ModelAndView("registration", "message", model);
 	}
 
