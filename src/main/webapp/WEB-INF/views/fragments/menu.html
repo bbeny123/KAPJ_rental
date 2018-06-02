@@ -15,8 +15,8 @@
             <a class="nav-item nav-link" id="logout" href="#" sec:authorize="isAuthenticated()" th:text="#{menu.logout}"></a>
         </div>
     </nav>
-    <!--/*@thymesVar id="error" type="pl.beny.rental.dto.ErrorResponse"*/-->
-    <label th:if="${error}" th:text="${error.message}" class="text-md-left text-danger font-weight-bold mt-2"></label>
+    <!--/*@thymesVar id="error" type="java.lang.String"*/-->
+    <label th:if="${error}" th:text="${error}" class="text-md-left text-danger font-weight-bold mt-2"></label>
 </div>
 </body>
 </html>

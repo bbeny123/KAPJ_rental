@@ -1,10 +1,14 @@
 package pl.beny.rental.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -18,6 +22,7 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.Locale;
 
 @Configuration
@@ -63,6 +68,20 @@ public class SpringConfig implements WebMvcConfigurer {
 		messageSource.setDefaultEncoding(StandardCharsets.UTF_8.name());
 		messageSource.setBasenames("classpath:messages/messages");
 		return messageSource;
+	}
+
+	@Bean
+	public RestTemplate restTemplate() {
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getMessageConverters()
+				.stream()
+				.filter(converter -> converter instanceof MappingJackson2HttpMessageConverter)
+				.map(converter -> (MappingJackson2HttpMessageConverter) converter)
+				.forEach(jsonConverter -> {
+					jsonConverter.setObjectMapper(new ObjectMapper());
+					jsonConverter.setSupportedMediaTypes(Collections.singletonList(MediaType.ALL));
+				});
+		return restTemplate;
 	}
 
 	@Bean

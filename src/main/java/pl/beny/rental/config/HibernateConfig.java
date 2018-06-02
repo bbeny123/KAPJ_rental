@@ -37,7 +37,7 @@ public class HibernateConfig {
     private Properties properties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.default_schema", "public");
-        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.hbm2ddl.import_files", "import.sql");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         properties.setProperty("hibernate.show_sql", "true");
