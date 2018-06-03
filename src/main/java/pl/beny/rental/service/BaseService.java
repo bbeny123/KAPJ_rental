@@ -3,7 +3,7 @@ package pl.beny.rental.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.beny.rental.repository.BaseRepository;
-import pl.beny.rental.security.UserContext;
+import pl.beny.rental.model.UserContext;
 import pl.beny.rental.util.RentalException;
 
 import java.util.List;

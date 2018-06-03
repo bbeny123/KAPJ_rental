@@ -8,7 +8,12 @@ import java.util.Set;
 @Entity
 @Table(name = "USERS")
 @SequenceGenerator(name = "SEQ_USR")
+@NamedEntityGraph(name = User.EntityGraphs.WITH_ROLES, attributeNodes = @NamedAttributeNode("roles"))
 public class User {
+
+    public interface EntityGraphs {
+        String WITH_ROLES = "User.WITH_ROLES";
+    }
 
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Token token;

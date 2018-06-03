@@ -4,26 +4,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class LoginController extends BaseController {
 
-	@Autowired
-	public LoginController(MessageSource messageSource) {
-		super("login", messageSource);
-	}
+    @Autowired
+    public LoginController(MessageSource messageSource) {
+        super("login", messageSource);
+    }
 
-	@RequestMapping("/login")
-	public String login() {
-		return viewName;
-	}
+    @GetMapping("/login")
+    public ModelAndView login(HttpServletRequest request, Model model) {
+        if (isAuthenticated()) {
+            return forwardToHome();
+        }
+        if (request.getParameter("logout") != null) {
+            return responseInfo(viewName, model, "info.logout");
+        }
+        return new ModelAndView(viewName);
+    }
 
-	@PostMapping("/logout")
-	public ModelAndView logout(Model model) {
-		return responseInfo("login", model, "info.logout");
-	}
+    @GetMapping("/login/failure")
+    public ModelAndView failure(Model model) {
+        if (isAuthenticated()) {
+            return forwardToHome();
+        }
+        return responseInfo(viewName, model, "info.invalid.credentials");
+    }
 
 }

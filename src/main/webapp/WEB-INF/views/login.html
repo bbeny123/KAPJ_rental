@@ -12,13 +12,13 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">@</span>
             </div>
-            <input type="email" class="form-control" th:placeholder="#{login.email}" required>
+            <input type="email" class="form-control" name="email" th:placeholder="#{login.email}" required>
         </div>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" th:text="#{login.password}"></span>
             </div>
-            <input type="password" class="form-control" th:placeholder="#{login.password}" required>
+            <input type="password" class="form-control" name="password" th:placeholder="#{login.password}" required>
         </div>
         <div class="btn-toolbar">
             <div class="btn-group w-100">

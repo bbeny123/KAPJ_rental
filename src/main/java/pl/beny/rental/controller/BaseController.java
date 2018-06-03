@@ -4,6 +4,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,10 +23,26 @@ public abstract class BaseController {
         this.viewName = viewName;
     }
 
-    protected ModelAndView responseInfo(String viewName, Model model, String source) {
+    ModelAndView responseInfo(String viewName, Model model, String source) {
         model.addAttribute("info", messageSource.getMessage(source, null, LocaleContextHolder.getLocale()));
         return new ModelAndView(viewName, "message", model);
     }
+
+    String viewOrForwardToHome(String viewName) {
+        if (isAuthenticated()) {
+            return "redirect:/";
+        }
+        return viewName;
+    }
+
+    boolean isAuthenticated() {
+        return !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
+    }
+
+    ModelAndView forwardToHome() {
+        return new ModelAndView("redirect:/");
+    }
+
 
     @ExceptionHandler(RentalException.class)
     public ModelAndView handleRentalException(RentalException ex, Model model) {

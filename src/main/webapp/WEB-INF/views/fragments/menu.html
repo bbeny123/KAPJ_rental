@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <div class="container" th:fragment="menu">
-    <form name="logout" th:action="@{/logout}" method="post"><input type="hidden" value="Sign Out"/></form>
+    <form name="logout" th:action="@{/logout}" method="post"></form>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#" th:href="@{/}" th:text="#{menu.home}"></a>
         <div class="navbar-nav">

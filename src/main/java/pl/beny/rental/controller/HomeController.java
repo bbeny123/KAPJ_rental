@@ -3,19 +3,19 @@ package pl.beny.rental.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController extends BaseController {
 
-	@Autowired
-	public HomeController(MessageSource messageSource) {
-		super("index", messageSource);
-	}
+    @Autowired
+    public HomeController(MessageSource messageSource) {
+        super("index", messageSource);
+    }
 
-	@RequestMapping("/")
-	public String home() {
-		return viewName;
-	}
+    @GetMapping("/")
+    public String home() {
+        return viewName;
+    }
 
 }
