@@ -5,13 +5,14 @@ import java.util.List;
 
 @Entity
 @Table(name = "CARS")
+@SequenceGenerator(name = "SEQ_CAR", allocationSize = 1)
 public class Car {
 
     @OneToMany(mappedBy = "car", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservations;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CAR")
     @Column(name = "CAR_ID")
     private Long id;
 

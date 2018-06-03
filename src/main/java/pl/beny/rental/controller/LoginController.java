@@ -23,8 +23,7 @@ public class LoginController extends BaseController {
 
 	@PostMapping(value="/logout")
 	public ModelAndView logout(Model model) {
-		model.addAttribute("logout", true);
-		return new ModelAndView(viewName, "message", model);
+		return responseInfo(model, "login", "info.logout");
 	}
 
 }

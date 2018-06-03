@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "RESERVATIONS")
+@SequenceGenerator(name = "SEQ_RSV")
 public class Reservation {
 
     public enum Status {
@@ -33,7 +34,7 @@ public class Reservation {
     private Car car;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_RSV")
     @Column(name = "RSV_ID")
     private Long id;
 

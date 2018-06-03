@@ -6,8 +6,6 @@
 <body>
 <div class="container">
     <!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
-    <!--/*@thymesVar id="logout" type="java.lang.Boolean"*/-->
-    <label th:if="${logout}" th:text="#{login.sign_out}" class="text-md-left text-danger font-weight-bold mt-2"></label>
     <script>activateLogin();</script>
     <form th:action="@{/login}" method="post" class="mt-2 w-50">
         <div class="input-group mb-3">
@@ -25,7 +23,7 @@
         <div class="btn-toolbar">
             <div class="btn-group w-100">
                 <button class="btn btn-primary w-50" type="submit" autofocus th:text="#{login.sign_in}"></button>
-                <button class="btn btn-secondary w-50" type="submit" th:text="#{login.sign_up}"></button>
+                <a class="btn btn-secondary w-50" th:text="#{login.sign_up}" th:href="@{/register}"></a>
             </div>
         </div>
     </form>

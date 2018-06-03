@@ -15,6 +15,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <spring.version>5.0.6.RELEASE</spring.version>
         <spring.security.version>5.0.4.RELEASE</spring.security.version>
+        <spring.data.version>2.0.7.RELEASE</spring.data.version>
         <postgresql.version>42.2.2</postgresql.version>
         <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
         <bootstrap.version>4.1.0</bootstrap.version>
@@ -28,15 +29,22 @@
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
+            <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
 
@@ -50,6 +58,18 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>${spring.data.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring.data.version}</version>
         </dependency>
 
         <dependency>

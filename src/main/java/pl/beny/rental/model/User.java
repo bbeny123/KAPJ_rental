@@ -1,11 +1,14 @@
 package pl.beny.rental.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "USERS")
+@SequenceGenerator(name = "SEQ_USR")
 public class User {
 
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -14,12 +17,12 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservations;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "USER_ROLES", joinColumns = @JoinColumn(name = "URL_USR_ID"), inverseJoinColumns = @JoinColumn(name = "URL_ROL_ID"))
     private Set<Role> roles;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_USR")
     @Column(name = "USR_ID")
     private Long id;
 
@@ -116,6 +119,13 @@ public class User {
         this.token = token;
     }
 
+    public void setToken(String token) {
+        Token tkn = new Token();
+        tkn.setToken(token);
+        tkn.setUser(this);
+        this.token = tkn;
+    }
+
     public List<Reservation> getReservations() {
         return reservations;
     }
@@ -125,6 +135,9 @@ public class User {
     }
 
     public Set<Role> getRoles() {
+        if (roles == null) {
+            roles = new HashSet<>();
+        }
         return roles;
     }
 

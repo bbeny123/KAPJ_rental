@@ -10,20 +10,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class MailUtil {
 
-    private JavaMailSender mailSender;
-    private MessageSource messageSource;
+    private static JavaMailSender mailSender;
+    private static MessageSource messageSource;
 
     @Autowired
     public MailUtil(JavaMailSender mailSender, MessageSource messageSource) {
-        this.mailSender = mailSender;
-        this.messageSource = messageSource;
+        MailUtil.mailSender = mailSender;
+        MailUtil.messageSource = messageSource;
     }
 
-    public void sendActivationEmail(String email, String token) {
+    public static void sendActivationEmail(String email, String token) {
         String URL = "http://localhost:8080/register/activate?token=" + token;
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
-        message.setSubject("Rental - Account activation");
+        message.setSubject(messageSource.getMessage("registration.email.subject", new Object[]{URL}, LocaleContextHolder.getLocale()));
         message.setText(messageSource.getMessage("registration.email.activation", new Object[]{URL}, LocaleContextHolder.getLocale()));
         mailSender.send(message);
     }

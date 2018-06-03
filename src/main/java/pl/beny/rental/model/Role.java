@@ -5,6 +5,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "ROLES")
+@SequenceGenerator(name = "SEQ_ROL", allocationSize = 1)
 public class Role {
 
     public enum Roles {
@@ -23,11 +24,11 @@ public class Role {
         }
     }
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.MERGE)
     private Set<User> users;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ROL")
     @Column(name = "ROL_ID")
     private Long id;
 

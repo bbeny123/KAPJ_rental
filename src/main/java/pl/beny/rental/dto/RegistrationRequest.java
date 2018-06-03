@@ -1,6 +1,7 @@
 package pl.beny.rental.dto;
 
-import javax.validation.constraints.NotEmpty;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import pl.beny.rental.model.User;
 
 public class RegistrationRequest {
 
@@ -51,12 +52,22 @@ public class RegistrationRequest {
         this.city = city;
     }
 
-    @NotEmpty
     public String getPhone() {
         return phone;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public User getUser(PasswordEncoder encoder) {
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(encoder.encode(password));
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setCity(city);
+        user.setPhone(phone);
+        return user;
     }
 }
