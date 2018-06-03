@@ -21,7 +21,7 @@ public abstract class BaseController {
         this.viewName = viewName;
     }
 
-    protected ModelAndView responseInfo(Model model, String viewName, String source) {
+    protected ModelAndView responseInfo(String viewName, Model model, String source) {
         model.addAttribute("info", messageSource.getMessage(source, null, LocaleContextHolder.getLocale()));
         return new ModelAndView(viewName, "message", model);
     }
@@ -29,7 +29,7 @@ public abstract class BaseController {
     @ExceptionHandler(RentalException.class)
     public ModelAndView handleRentalException(RentalException ex, Model model) {
         logger.warn(ex.getMessage());
-        return responseInfo(model, viewName, ex.getMessageSource());
+        return responseInfo(ex.getViewName() != null ? ex.getViewName() : viewName, model, ex.getMessageSource());
     }
 
     @ExceptionHandler(Exception.class)

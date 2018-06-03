@@ -13,7 +13,7 @@ public class HomeController extends BaseController {
 		super("index", messageSource);
 	}
 
-	@RequestMapping(value="/")
+	@RequestMapping("/")
 	public String home() {
 		return viewName;
 	}

@@ -28,23 +28,34 @@ public class RegistrationController extends BaseController {
 		this.encoder = encoder;
 	}
 
-	@RequestMapping(value = "/register")
+	@RequestMapping("/register")
 	public String register() {
 		return viewName;
 	}
 
-	@PostMapping(value="/register")
+	@PostMapping("/register")
 	public ModelAndView register(Model model, RegistrationRequest userRequest, @RequestParam("g-recaptcha-response") String captchaResponse) throws Exception {
 	    if (!CaptchaUtil.checkCaptcha(captchaResponse)) throw new RentalException(RentalException.RentalErrors.CAPTCHA_ERROR);
 	    if (userService.existsByEmail(userRequest.getEmail())) throw new RentalException(RentalException.RentalErrors.USER_EXISTS);
 	    userService.create(userRequest.getUser(encoder));
-	    return responseInfo(model, "login", "info.registered");
+	    return responseInfo("login", model, "info.registered");
 	}
 
-	@GetMapping(value="/register/activate")
+	@GetMapping("/register/activate")
 	public ModelAndView activate(Model model, @RequestParam("token") String token) throws Exception {
 		userService.activate(tokenService.findByToken(token).getUser());
-		return responseInfo(model, "login", "info.activated");
+		return responseInfo("login", model, "info.activated");
 	}
+
+    @GetMapping("/register/resend")
+    public String resend(){
+        return "token";
+    }
+
+    @PostMapping("/register/resend")
+    public ModelAndView resendToken(Model model, String email) throws Exception {
+        userService.resendToken(userService.findByEmail(email));
+		return responseInfo("login", model, "info.resend");
+    }
 
 }

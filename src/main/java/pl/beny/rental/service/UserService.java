@@ -7,6 +7,7 @@ import pl.beny.rental.model.Token;
 import pl.beny.rental.model.User;
 import pl.beny.rental.repository.UserRepository;
 import pl.beny.rental.util.MailUtil;
+import pl.beny.rental.util.RentalException;
 import pl.beny.rental.util.RoleUtil;
 
 import java.util.Collections;
@@ -41,6 +42,17 @@ public class UserService extends BaseService<User> {
         user.setActive(true);
         user.setToken((Token) null);
         return saveAndFlush(user);
+    }
+
+    public User findByEmail(String email) throws RentalException {
+        return repository.findByEmail(email).orElseThrow(() -> new RentalException(RentalException.RentalErrors.USER_NOT_EXISTS));
+    }
+
+    public User resendToken(User user) {
+        user.setToken(UUID.randomUUID().toString());
+        user = saveAndFlush(user);
+        MailUtil.sendActivationEmail(user.getEmail(), user.getToken().getToken());
+        return user;
     }
 
 }

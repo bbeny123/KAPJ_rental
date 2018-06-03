@@ -4,7 +4,6 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "USERS")
@@ -120,10 +119,11 @@ public class User {
     }
 
     public void setToken(String token) {
-        Token tkn = new Token();
-        tkn.setToken(token);
-        tkn.setUser(this);
-        this.token = tkn;
+        if (this.token == null) {
+            this.token = new Token();
+            this.token.setUser(this);
+        }
+        this.token.setToken(token);
     }
 
     public List<Reservation> getReservations() {
@@ -144,4 +144,5 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
 }

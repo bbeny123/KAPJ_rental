@@ -16,7 +16,8 @@
         <input class="mb-3 form-control" type="text" th:name="city" th:placeholder="#{registration.city}" pattern="[A-Za-z]+" required>
         <input class="mb-3 form-control" type="text" th:name="phone" th:placeholder="#{registration.phone}" pattern="[0-9]*" >
         <div class="mb-3 align-self-center g-recaptcha" data-sitekey="6LcB4lwUAAAAAD-0mkBxlopTOZcohXkfoWfITINK"></div>
-        <button class="btn btn-primary w-100" type="submit" th:text="#{registration.sign_up}"></button>
+        <button class="btn btn-primary mb-2 w-100" type="submit" th:text="#{registration.sign_up}"></button>
+        <a th:text="#{registration.resend.link}" th:href="@{/register/resend}"></a>
     </form>
 </div>
 </body>

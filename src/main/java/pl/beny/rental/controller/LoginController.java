@@ -16,14 +16,14 @@ public class LoginController extends BaseController {
 		super("login", messageSource);
 	}
 
-	@RequestMapping(value="/login")
+	@RequestMapping("/login")
 	public String login() {
 		return viewName;
 	}
 
-	@PostMapping(value="/logout")
+	@PostMapping("/logout")
 	public ModelAndView logout(Model model) {
-		return responseInfo(model, "login", "info.logout");
+		return responseInfo("login", model, "info.logout");
 	}
 
 }
