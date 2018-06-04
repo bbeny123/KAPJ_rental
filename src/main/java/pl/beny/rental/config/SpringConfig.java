@@ -60,9 +60,7 @@ public class SpringConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry
-				.addResourceHandler("/resources/**")
-				.addResourceLocations("/resources/");
+		registry.setOrder(-1).addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
 
 	@Bean
