@@ -63,6 +63,6 @@ public class UserContext implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.isActive();
+        return user.isActive() && !user.getRoles().isEmpty();
     }
 }

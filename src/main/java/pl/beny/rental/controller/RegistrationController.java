@@ -5,8 +5,9 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.beny.rental.dto.RegistrationRequest;
 import pl.beny.rental.service.TokenService;
 import pl.beny.rental.service.UserService;
@@ -34,9 +35,9 @@ public class RegistrationController extends BaseController {
 	}
 
 	@PostMapping("/register")
-	public ModelAndView register(Model model, RegistrationRequest userRequest, @RequestParam("g-recaptcha-response") String captchaResponse) throws Exception {
+	public String register(Model model, RegistrationRequest userRequest, @RequestParam("g-recaptcha-response") String captchaResponse) throws Exception {
 		if (isAuthenticated()) {
-			return forwardToHome();
+			return redirect;
 		}
 	    if (!CaptchaUtil.checkCaptcha(captchaResponse)) throw new RentalException(RentalException.RentalErrors.CAPTCHA_ERROR);
 	    if (userService.existsByEmail(userRequest.getEmail())) throw new RentalException(RentalException.RentalErrors.USER_EXISTS);
@@ -45,9 +46,9 @@ public class RegistrationController extends BaseController {
 	}
 
 	@GetMapping("/register/activate")
-	public ModelAndView activate(Model model, @RequestParam("token") String token) throws Exception {
+	public String activate(Model model, @RequestParam("token") String token) throws Exception {
 		if (isAuthenticated()) {
-			return forwardToHome();
+			return redirect;
 		}
 		userService.activate(tokenService.findByToken(token).getUser());
 		return responseInfo("login", model, "info.activated");
@@ -59,9 +60,9 @@ public class RegistrationController extends BaseController {
     }
 
     @PostMapping("/register/resend")
-    public ModelAndView resendToken(Model model, String email) throws Exception {
+    public String resendToken(Model model, String email) throws Exception {
 		if (isAuthenticated()) {
-			return forwardToHome();
+			return redirect;
 		}
         userService.resendToken(userService.findByEmail(email));
 		return responseInfo("login", model, "info.resend");

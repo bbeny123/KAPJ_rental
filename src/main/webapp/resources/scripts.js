@@ -1,5 +1,5 @@
 $(document).ready( function() {
-    $('#data').dataTable();
+    $('#data').DataTable();
 });
 
 window.onload = function() {

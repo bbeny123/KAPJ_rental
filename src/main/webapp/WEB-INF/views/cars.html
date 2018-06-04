@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container mb-2">
+    <!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
+    <script>activateCars();</script>
+    <!--/*@thymesVar id="car" type="pl.beny.rental.dto.CarResponse"*/-->
+    <div class="mt-2">
+        <table id="data" class="table table-striped">
+            <thead>
+            <tr>
+                <th sec:authorize="hasAnyAuthority('ADMIN','EMPLOYEE')">ID</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Colour</th>
+                <th>Plate</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="car : ${cars}">
+                <td th:text="${car.id}" sec:authorize="hasAnyAuthority('ADMIN','EMPLOYEE')">ID</td>
+                <td th:text="${car.make}">>Make</td>
+                <td th:text="${car.model}">Model</td>
+                <td th:text="${car.colour}">Colour</td>
+                <td th:text="${car.plate}">Plate</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

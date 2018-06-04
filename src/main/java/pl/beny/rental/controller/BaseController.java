@@ -8,7 +8,6 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.ModelAndView;
 import pl.beny.rental.util.RentalException;
 
 public abstract class BaseController {
@@ -16,6 +15,7 @@ public abstract class BaseController {
     private Logger logger;
     private MessageSource messageSource;
     String viewName;
+    String redirect = "redirect:/";
 
     public BaseController(String viewName, MessageSource messageSource) {
         this.logger = LogManager.getLogger(this.getClass());
@@ -23,38 +23,30 @@ public abstract class BaseController {
         this.viewName = viewName;
     }
 
-    ModelAndView responseInfo(String viewName, Model model, String source) {
-        model.addAttribute("info", messageSource.getMessage(source, null, LocaleContextHolder.getLocale()));
-        return new ModelAndView(viewName, "message", model);
+    @ExceptionHandler(RentalException.class)
+    public String handleRentalException(RentalException ex, Model model) {
+        logger.warn(ex.getMessage());
+        return responseInfo(ex.getViewName() != null ? ex.getViewName() : viewName, model, ex.getMessageSource());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception ex, Model model) {
+        logger.warn(ex.getMessage());
+        model.addAttribute("info", ex.getMessage());
+        return viewName;
     }
 
     String viewOrForwardToHome(String viewName) {
-        if (isAuthenticated()) {
-            return "redirect:/";
-        }
-        return viewName;
+        return isAuthenticated() ? redirect : viewName;
     }
 
     boolean isAuthenticated() {
         return !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
     }
 
-    ModelAndView forwardToHome() {
-        return new ModelAndView("redirect:/");
-    }
-
-
-    @ExceptionHandler(RentalException.class)
-    public ModelAndView handleRentalException(RentalException ex, Model model) {
-        logger.warn(ex.getMessage());
-        return responseInfo(ex.getViewName() != null ? ex.getViewName() : viewName, model, ex.getMessageSource());
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ModelAndView handleException(Exception ex, Model model) {
-        logger.warn(ex.getMessage());
-        model.addAttribute("info", ex.getMessage());
-        return new ModelAndView(viewName, "message", model);
+    String responseInfo(String viewName, Model model, String source) {
+        model.addAttribute("info", messageSource.getMessage(source, null, LocaleContextHolder.getLocale()));
+        return viewName;
     }
 
 }

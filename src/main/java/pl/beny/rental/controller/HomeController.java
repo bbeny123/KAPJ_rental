@@ -22,7 +22,7 @@ public class HomeController extends BaseController {
 
     @RequestMapping
     public String redirect(){
-        return "redirect:/";
+        return redirect;
     }
 
 }
