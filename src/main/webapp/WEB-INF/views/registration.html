@@ -9,12 +9,13 @@
     <!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
     <script>activateRegister();</script>
     <form th:action="@{/register}" method="post" class="mt-2 w-50">
-        <input class="mb-3 form-control" type="email" th:name="email" th:placeholder="#{registration.email}" required>
-        <input class="mb-3 form-control" type="password" th:name="password" th:placeholder="#{registration.password}" pattern=".{4,}" required>
-        <input class="mb-3 form-control" type="text" th:name="firstName" th:placeholder="#{registration.firstName}" pattern="[A-Za-z]+" required>
-        <input class="mb-3 form-control" type="text" th:name="lastName" th:placeholder="#{registration.lastName}" pattern="[A-Za-z]+" required>
-        <input class="mb-3 form-control" type="text" th:name="city" th:placeholder="#{registration.city}" pattern="[A-Za-z]+" required>
-        <input class="mb-3 form-control" type="text" th:name="phone" th:placeholder="#{registration.phone}" pattern="[0-9]*" >
+        <input class="mb-3 form-control" type="email" th:id="email" th:placeholder="#{registration.email}" required>
+        <input class="mb-3 form-control" type="password" onchange="validatePassword()" th:id="password" th:placeholder="#{registration.password}" pattern=".{4,}" required>
+        <input class="mb-3 form-control" type="password" onkeyup="validatePassword()" th:id="confirm_password" th:placeholder="#{registration.password.confirm}" pattern=".{4,}" required>
+        <input class="mb-3 form-control" type="text" th:id="firstName" th:placeholder="#{registration.firstName}" pattern="[A-Za-z]+" required>
+        <input class="mb-3 form-control" type="text" th:id="lastName" th:placeholder="#{registration.lastName}" pattern="[A-Za-z]+" required>
+        <input class="mb-3 form-control" type="text" th:id="city" th:placeholder="#{registration.city}" pattern="[A-Za-z]+" required>
+        <input class="mb-3 form-control" type="text" th:id="phone" th:placeholder="#{registration.phone}" pattern="[0-9]*" >
         <div class="mb-3 align-self-center g-recaptcha" data-sitekey="6LcB4lwUAAAAAD-0mkBxlopTOZcohXkfoWfITINK"></div>
         <button class="btn btn-primary mb-2 w-100" type="submit" th:text="#{registration.sign_up}"></button>
         <a th:text="#{registration.resend.link}" th:href="@{/register/resend}"></a>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <body>
 <div class="container" th:fragment="menu">
     <form name="logout" th:action="@{/logout}" method="post"></form>
@@ -8,8 +8,8 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link" id="user_reservations" th:href="@{/user-reservations}" sec:authorize="isAuthenticated()" th:text="#{menu.user.reservations}"></a>
             <a class="nav-item nav-link" id="cars" th:href="@{/cars}" th:text="#{menu.cars}"></a>
-            <a class="nav-item nav-link" id="users" th:href="@{/users}" sec:authorize="hasRole('ADMIN')" th:text="#{menu.users}"></a>
-            <a class="nav-item nav-link" id="reservations" th:href="@{/reservations}" sec:authorize="hasAnyRole('ADMIN','EMPLOYEE')" th:text="#{menu.reservations}"></a>
+            <a class="nav-item nav-link" id="users" th:href="@{/users}" sec:authorize="hasAuthority('ADMIN')" th:text="#{menu.users}"></a>
+            <a class="nav-item nav-link" id="reservations" th:href="@{/reservations}" sec:authorize="hasAnyAuthority('ADMIN','EMPLOYEE')" th:text="#{menu.reservations}"></a>
             <a class="nav-item nav-link" id="login" th:href="@{/login}" sec:authorize="!isAuthenticated()" th:text="#{menu.login}"></a>
             <a class="nav-item nav-link" id="register" th:href="@{/register}" sec:authorize="!isAuthenticated()" th:text="#{menu.register}"></a>
             <a class="nav-item nav-link" id="logout" href="#" sec:authorize="isAuthenticated()" th:text="#{menu.logout}"></a>

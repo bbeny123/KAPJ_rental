@@ -18,6 +18,7 @@
         <spring.data.version>2.0.7.RELEASE</spring.data.version>
         <postgresql.version>42.2.2</postgresql.version>
         <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
+        <thymeleaf.extras.version>3.0.2.RELEASE</thymeleaf.extras.version>
         <bootstrap.version>4.1.0</bootstrap.version>
         <hibernate.version>5.3.1.Final</hibernate.version>
         <hibernate.validator.version>6.0.10.Final</hibernate.validator.version>
@@ -112,6 +113,12 @@
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring5</artifactId>
             <version>${thymeleaf.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+            <version>${thymeleaf.extras.version}</version>
         </dependency>
 
         <dependency>
