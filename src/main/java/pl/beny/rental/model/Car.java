@@ -1,6 +1,7 @@
 package pl.beny.rental.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -81,6 +82,9 @@ public class Car {
     }
 
     public List<Reservation> getReservations() {
+        if (reservations == null) {
+            reservations = new ArrayList<>();
+        }
         return reservations;
     }
 

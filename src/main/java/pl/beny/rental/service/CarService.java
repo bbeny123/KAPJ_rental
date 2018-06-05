@@ -28,7 +28,7 @@ public class CarService extends BaseService<Car> {
     }
 
     public void changeAvailability(UserContext ctx, Long carId, boolean available) throws RentalException {
-        Car car = repository.findById(carId).orElseThrow(() -> new RentalException(RentalException.RentalErrors.ITEM_NOT_EXISTS));
+        Car car = findById(carId);
         if (car.isAvailable() == available) {
             return;
         }
@@ -40,6 +40,23 @@ public class CarService extends BaseService<Car> {
                 });
         car.setAvailable(available);
         saveEmployee(ctx, car);
+    }
+
+    public void rent(UserContext ctx, Long carId) throws RentalException {
+        Car car = findById(carId);
+        if (!car.isAvailable() || car.getReservations().stream().anyMatch(rsv -> rsv.getDateEnd() == null)) {
+            throw new RentalException(RentalException.RentalErrors.CAR_NOT_RENTABLE);
+        }
+        Reservation rsv = new Reservation();
+        rsv.setDateStart(LocalDate.now());
+        rsv.setUser(ctx.getUser());
+        rsv.setCar(car);
+        car.getReservations().add(rsv);
+        save(car);
+    }
+
+    public Car findById(Long carId) throws RentalException {
+        return repository.findById(carId).orElseThrow(() -> new RentalException(RentalException.RentalErrors.ITEM_NOT_EXISTS));
     }
 
 }

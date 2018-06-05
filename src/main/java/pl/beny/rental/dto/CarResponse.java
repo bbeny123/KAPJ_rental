@@ -10,6 +10,7 @@ public class CarResponse {
     private String colour;
     private String plate;
     private boolean available;
+    private boolean rentable;
 
     public CarResponse(Car car) {
         this.id = car.getId();
@@ -18,6 +19,7 @@ public class CarResponse {
         this.colour = car.getColour();
         this.plate = car.getPlate();
         this.available = car.isAvailable();
+        this.rentable = car.isAvailable() && car.getReservations().stream().noneMatch(rsv -> rsv.getDateEnd() == null);
     }
 
     public Long getId() {
@@ -66,5 +68,13 @@ public class CarResponse {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public boolean isRentable() {
+        return rentable;
+    }
+
+    public void setRentable(boolean rentable) {
+        this.rentable = rentable;
     }
 }

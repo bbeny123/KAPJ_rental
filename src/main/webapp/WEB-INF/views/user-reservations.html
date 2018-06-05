@@ -29,8 +29,8 @@
                 <td th:text="${rsv.dateEnd}"></td>
                 <td th:text="${rsv.status}"></td>
                 <td th:switch="${rsv.action}">
-                    <form th:action="@{'/user-reservations/' + ${rsv.id} + '/cancel'}" method="post">
-                        <button th:case="'cancel'" class="btn btn-link p-0 align-baseline" type="submit" th:text="#{reservation.action.cancel}"></button>
+                    <form th:case="'cancel'" th:action="@{'/user-reservations/' + ${rsv.id} + '/cancel'}" method="post">
+                        <button class="btn btn-link p-0 align-baseline" type="submit" th:text="#{reservation.action.cancel}"></button>
                     </form>
                 </td>
                 <td th:switch="${rsv.invoiceAvailable}">

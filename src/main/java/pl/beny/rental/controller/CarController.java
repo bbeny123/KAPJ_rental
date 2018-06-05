@@ -35,4 +35,10 @@ public class CarController extends BaseController {
 		return viewName;
 	}
 
+	@PostMapping("/cars/{carId}/rent")
+	public String rent(@PathVariable("carId") Long carId) throws Exception {
+		carService.rent(getUserContext(), carId);
+		return viewName;
+	}
+
 }

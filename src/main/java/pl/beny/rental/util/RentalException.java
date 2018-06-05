@@ -9,7 +9,8 @@ public class RentalException extends Exception {
         ITEM_NOT_EXISTS(4, "The item does not exist in database", "error.item.not.exists", null),
         USER_NOT_EXISTS(5, "The e-mail does not exist in database", "error.user.not.exists", "token"),
         TOKEN_NOT_EXISTS(6, "The token does not exist in database", "error.token.not.exists", null),
-        INVOICE_NOT_AVAILABLE(7, "Requested invoice is not available.", "error.invoice.not.available", null);
+        INVOICE_NOT_AVAILABLE(7, "Requested invoice is not available.", "error.invoice.not.available", null),
+        CAR_NOT_RENTABLE(7, "Car is not rentable.", "error.car.not.rentable", null);
 
         private int code;
         private String message;

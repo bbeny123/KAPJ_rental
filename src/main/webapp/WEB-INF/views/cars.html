@@ -17,7 +17,8 @@
                 <th th:text="#{car.model}"></th>
                 <th th:text="#{car.colour}"></th>
                 <th th:text="#{car.plate}"></th>
-                <th sec:authorize="hasAnyAuthority('ADMIN','EMPLOYEE')" th:text="#{car.available}"></th>
+                <th th:text="#{car.rentable}" sec:authorize="isAuthenticated()"></th>
+                <th th:text="#{car.available}" sec:authorize="hasAnyAuthority('ADMIN','EMPLOYEE')"></th>
             </tr>
             </thead>
             <tbody>
@@ -27,6 +28,13 @@
                 <td th:text="${car.model}"></td>
                 <td th:text="${car.colour}"></td>
                 <td th:text="${car.plate}"></td>
+                <td th:if="${!car.available}" th:text="#{car.available.not}" sec:authorize="isAuthenticated()"></td>
+                <td th:if="${car.available}" th:switch="${car.rentable}" sec:authorize="isAuthenticated()">
+                    <form th:case="true" th:action="@{'/cars/' + ${car.id} + '/rent/'}" method="post">
+                        <button class="btn btn-link p-0 align-baseline" type="submit" th:text="#{car.rent}"></button>
+                    </form>
+                    <span th:case="false" th:text="#{car.rented}"></span>
+                </td>
                 <td th:switch="${car.available}" sec:authorize="hasAnyAuthority('ADMIN','EMPLOYEE')">
                     <form th:action="@{'/cars/' + ${car.id} + '/available/' + ${!car.available}}" method="post">
                         <span th:case="true" th:text="#{car.yes}"></span>
