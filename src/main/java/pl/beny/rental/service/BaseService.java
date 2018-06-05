@@ -2,8 +2,8 @@ package pl.beny.rental.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.beny.rental.repository.BaseRepository;
 import pl.beny.rental.model.UserContext;
+import pl.beny.rental.repository.BaseRepository;
 import pl.beny.rental.util.RentalException;
 
 import java.util.List;
@@ -20,13 +20,13 @@ public abstract class BaseService<T> {
     @Transactional
     public T saveAdmin(UserContext ctx, T data) throws RentalException {
         checkAdmin(ctx);
-        return repository.save(data);
+        return save(data);
     }
 
     @Transactional
     public T saveEmployee(UserContext ctx, T data) throws RentalException {
         checkEmployee(ctx);
-        return repository.save(data);
+        return save(data);
     }
 
     @Transactional
@@ -37,13 +37,13 @@ public abstract class BaseService<T> {
     @Transactional
     public T saveAndFlushAdmin(UserContext ctx, T data) throws RentalException {
         checkAdmin(ctx);
-        return repository.saveAndFlush(data);
+        return saveAndFlush(data);
     }
 
     @Transactional
     public T saveAndFlushEmployee(UserContext ctx, T data) throws RentalException {
         checkEmployee(ctx);
-        return repository.saveAndFlush(data);
+        return saveAndFlush(data);
     }
 
     @Transactional
@@ -53,12 +53,12 @@ public abstract class BaseService<T> {
 
     public List<T> findAllAdmin(UserContext ctx) throws RentalException {
         checkAdmin(ctx);
-        return repository.findAll();
+        return findAll();
     }
 
     public List<T> findAllEmployee(UserContext ctx) throws RentalException {
         checkEmployee(ctx);
-        return repository.findAll();
+        return findAll();
     }
 
     public List<T> findAll() {
@@ -67,16 +67,16 @@ public abstract class BaseService<T> {
 
     public T findOneAdmin(UserContext ctx, Long id) throws RentalException {
         checkAdmin(ctx);
-        return repository.findById(id).orElse(null);
+        return findOne(id);
     }
 
     public T findOneEmployee(UserContext ctx, Long id) throws RentalException {
         checkEmployee(ctx);
-        return repository.findById(id).orElse(null);
+        return findOne(id);
     }
 
-    public T findOne( Long id) {
-        return repository.findById(id).orElse(null);
+    public T findOne(Long id) throws RentalException {
+        return repository.findById(id).orElseThrow(() -> new RentalException(RentalException.RentalErrors.ITEM_NOT_EXISTS));
     }
 
     private void checkAdmin(UserContext ctx) throws RentalException {
@@ -84,7 +84,7 @@ public abstract class BaseService<T> {
     }
 
     private void checkEmployee(UserContext ctx) throws RentalException {
-        if (!ctx.isEmployee()) throw new RentalException(RentalException.RentalErrors.NOT_AUTHORIZED);
+        if (!ctx.isEmployee() && !ctx.isAdmin()) throw new RentalException(RentalException.RentalErrors.NOT_AUTHORIZED);
     }
 
 }

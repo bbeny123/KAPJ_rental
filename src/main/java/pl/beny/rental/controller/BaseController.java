@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import pl.beny.rental.model.UserContext;
 import pl.beny.rental.util.RentalException;
 
 public abstract class BaseController {
@@ -34,6 +35,10 @@ public abstract class BaseController {
         logger.warn(ex.getMessage());
         model.addAttribute("info", ex.getMessage());
         return viewName;
+    }
+
+    UserContext getUserContext() {
+        return isAuthenticated() ? (UserContext) SecurityContextHolder.getContext().getAuthentication().getPrincipal() : new UserContext();
     }
 
     String viewOrForwardToHome(String viewName) {

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
 </head>
@@ -8,24 +9,32 @@
     <!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
     <script>activateCars();</script>
     <!--/*@thymesVar id="car" type="pl.beny.rental.dto.CarResponse"*/-->
-    <div class="mt-2">
+    <div class="mt-3">
         <table id="data" class="table table-striped">
             <thead>
             <tr>
-                <th sec:authorize="hasAnyAuthority('ADMIN','EMPLOYEE')">ID</th>
-                <th>Make</th>
-                <th>Model</th>
-                <th>Colour</th>
-                <th>Plate</th>
+                <th th:text="#{car.id}" sec:authorize="hasAnyAuthority('ADMIN','EMPLOYEE')"></th>
+                <th th:text="#{car.make}"></th>
+                <th th:text="#{car.model}"></th>
+                <th th:text="#{car.colour}"></th>
+                <th th:text="#{car.plate}"></th>
+                <th sec:authorize="hasAnyAuthority('ADMIN','EMPLOYEE')" th:text="#{car.available}"></th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="car : ${cars}">
-                <td th:text="${car.id}" sec:authorize="hasAnyAuthority('ADMIN','EMPLOYEE')">ID</td>
-                <td th:text="${car.make}">>Make</td>
-                <td th:text="${car.model}">Model</td>
-                <td th:text="${car.colour}">Colour</td>
-                <td th:text="${car.plate}">Plate</td>
+            <tr class="align-middle" th:each="car : ${cars}">
+                <td th:text="${car.id}" sec:authorize="hasAnyAuthority('ADMIN','EMPLOYEE')"></td>
+                <td th:text="${car.make}"></td>
+                <td th:text="${car.model}"></td>
+                <td th:text="${car.colour}"></td>
+                <td th:text="${car.plate}"></td>
+                <td th:switch="${car.available}" sec:authorize="hasAnyAuthority('ADMIN','EMPLOYEE')">
+                    <form th:action="@{'/cars/' + ${car.id} + '/available/' + ${!car.available}}" method="post">
+                        <span th:case="true" th:text="#{car.yes}"></span>
+                        <span th:case="false" th:text="#{car.no}"></span>
+                        <button class="btn btn-link p-0 align-baseline" type="submit" th:text="#{car.change}"></button>
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>

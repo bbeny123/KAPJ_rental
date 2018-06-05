@@ -6,7 +6,12 @@ import java.util.List;
 @Entity
 @Table(name = "CARS")
 @SequenceGenerator(name = "SEQ_CAR", allocationSize = 1)
+@NamedEntityGraph(name = Car.EntityGraphs.WITH_RESERVATIONS, attributeNodes = @NamedAttributeNode("reservations"))
 public class Car {
+
+    public interface EntityGraphs {
+        String WITH_RESERVATIONS = "Car.WITH_RESERVATIONS";
+    }
 
     @OneToMany(mappedBy = "car", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservations;
@@ -27,6 +32,9 @@ public class Car {
 
     @Column(name = "CAR_PLATE", length = 10, nullable = false, unique = true)
     private String plate;
+
+    @Column(name = "CAR_AVAILABLE", nullable = false)
+    private boolean available = true;
 
     public Long getId() {
         return id;
@@ -76,4 +84,11 @@ public class Car {
         this.reservations = reservations;
     }
 
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
 }

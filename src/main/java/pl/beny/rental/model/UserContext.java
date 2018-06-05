@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,10 @@ public class UserContext implements UserDetails {
     private User user;
     private List<Role.Roles> roles;
     private List<GrantedAuthority> authorities;
+
+    public UserContext() {
+        roles = new ArrayList<>();
+    }
 
     public UserContext(User user) {
         this.user = user;

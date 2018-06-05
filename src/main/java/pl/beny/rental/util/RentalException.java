@@ -6,8 +6,9 @@ public class RentalException extends Exception {
         NOT_AUTHORIZED(1, "Not authorized", "error.authorized", null),
         CAPTCHA_ERROR(2, "Captcha Error", "error.captcha", null),
         USER_EXISTS(3, "The e-mail address is already in use", "error.user.exists", null),
-        USER_NOT_EXISTS(4, "The e-mail does not exist in database", "error.user.not.exists", "token"),
-        TOKEN_NOT_EXISTS(5, "The token does not exist in database", "error.token.not.exists", null);
+        ITEM_NOT_EXISTS(4, "The item does not exist in database", "error.item.not.exists", null),
+        USER_NOT_EXISTS(5, "The e-mail does not exist in database", "error.user.not.exists", "token"),
+        TOKEN_NOT_EXISTS(6, "The token does not exist in database", "error.token.not.exists", null);
 
         private int code;
         private String message;

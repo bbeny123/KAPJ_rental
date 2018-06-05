@@ -9,6 +9,7 @@ public class CarResponse {
     private String model;
     private String colour;
     private String plate;
+    private boolean available;
 
     public CarResponse(Car car) {
         this.id = car.getId();
@@ -16,6 +17,7 @@ public class CarResponse {
         this.model = car.getModel();
         this.colour = car.getColour();
         this.plate = car.getPlate();
+        this.available = car.isAvailable();
     }
 
     public Long getId() {
@@ -56,5 +58,13 @@ public class CarResponse {
 
     public void setPlate(String plate) {
         this.plate = plate;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 }
