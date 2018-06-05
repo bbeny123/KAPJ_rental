@@ -27,10 +27,10 @@ public class CarService extends BaseService<Car> {
         return ctx.isEmployee() || ctx.isAdmin() ? repository.findAll() : repository.findAllByAvailable(true);
     }
 
-    public Car changeAvailability(UserContext ctx, Long carId, boolean available) throws RentalException {
+    public void changeAvailability(UserContext ctx, Long carId, boolean available) throws RentalException {
         Car car = repository.findById(carId).orElseThrow(() -> new RentalException(RentalException.RentalErrors.ITEM_NOT_EXISTS));
         if (car.isAvailable() == available) {
-            return car;
+            return;
         }
         car.getReservations().stream()
                 .filter(rsv -> Arrays.asList(Reservation.Status.ACTIVE, Reservation.Status.WAITING).contains(rsv.getStatus()))
@@ -39,7 +39,7 @@ public class CarService extends BaseService<Car> {
                     rsv.setStatus(rsv.getStatus().equals(Reservation.Status.ACTIVE) ? Reservation.Status.FINISHED : Reservation.Status.CANCELED);
                 });
         car.setAvailable(available);
-        return saveEmployee(ctx, car);
+        saveEmployee(ctx, car);
     }
 
 }

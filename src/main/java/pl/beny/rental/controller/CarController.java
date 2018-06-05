@@ -30,7 +30,7 @@ public class CarController extends BaseController {
 	}
 
 	@PostMapping("/cars/{carId}/available/{available}")
-	public String cars(@PathVariable("carId") Long carId, @PathVariable("available") boolean available) throws Exception {
+	public String changeAvailability(@PathVariable("carId") Long carId, @PathVariable("available") boolean available) throws Exception {
 		carService.changeAvailability(getUserContext(), carId, available);
 		return viewName;
 	}

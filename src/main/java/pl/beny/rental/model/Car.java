@@ -60,6 +60,10 @@ public class Car {
         this.model = model;
     }
 
+    public String getName() {
+        return this.make + " " + this.model;
+    }
+
     public String getColour() {
         return colour;
     }

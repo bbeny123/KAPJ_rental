@@ -91,6 +91,14 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
+    public String getIdFullName() {
+        return id + ": " + firstName + " " + lastName;
+    }
+
     public String getCity() {
         return city;
     }

@@ -8,6 +8,11 @@ import java.time.LocalDate;
 @SequenceGenerator(name = "SEQ_RSV")
 public class Reservation {
 
+    public interface Actions {
+        String CANCEL = "cancel";
+        String FINISH = "finish";
+    }
+
     public enum Status {
         WAITING("WAITING"),
         ACTIVE("ACTIVE"),
