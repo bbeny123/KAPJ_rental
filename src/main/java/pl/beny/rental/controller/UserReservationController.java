@@ -14,29 +14,29 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.stream.Collectors;
 
 @Controller
-public class ReservationController extends BaseController {
+public class UserReservationController extends BaseController {
 
 	private ReservationService reservationService;
 
 	@Autowired
-	public ReservationController(ReservationService reservationService, MessageSource messageSource) {
-		super("redirect:/reservations", messageSource);
+	public UserReservationController(ReservationService reservationService, MessageSource messageSource) {
+		super("redirect:/user-reservations", messageSource);
 		this.reservationService = reservationService;
 	}
 
-	@GetMapping("/reservations")
-	public String reservation(Model model) throws Exception {
-		model.addAttribute("reservations", reservationService.findAllEmployee(getUserContext()).stream().map(ReservationResponse::new).collect(Collectors.toList()));
-		return "reservations";
+	@GetMapping("/user-reservations")
+	public String reservation(Model model) {
+		model.addAttribute("reservations", reservationService.findAllByUserId(getUserContext()).stream().map(ReservationResponse::new).collect(Collectors.toList()));
+		return "user-reservations";
 	}
 
-	@PostMapping("/reservations/{rsvId}/{action}")
-	public String changeStatus(@PathVariable("rsvId") Long rsvId, @PathVariable("action") String action) throws Exception {
-		reservationService.changeStatus(getUserContext(), rsvId, action);
+	@PostMapping("/user-reservations/{rsvId}/cancel")
+	public String changeStatus(@PathVariable("rsvId") Long rsvId) throws Exception {
+		reservationService.cancel(getUserContext(), rsvId);
 		return viewName;
 	}
 
-	@GetMapping(value = "/reservations/invoice/{rsvId}")
+	@GetMapping(value = "/user-reservations/invoice/{rsvId}")
 	public void getInvoice(@PathVariable("rsvId") Long rsvId, HttpServletResponse response) throws Exception {
 		reservationService.prepareInvoiceResponse(getUserContext(), rsvId, response);
 	}

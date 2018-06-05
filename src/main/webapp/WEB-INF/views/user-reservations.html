@@ -6,40 +6,35 @@
 <body>
 <div class="container mb-2">
     <!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
-    <script>activateReservations();</script>
+    <script>activateUserReservations();</script>
     <!--/*@thymesVar id="rsv" type="pl.beny.rental.dto.ReservationResponse"*/-->
     <div class="mt-3">
         <table id="data" class="table table-striped">
             <thead>
             <tr>
-                <th th:text="#{reservation.id}"></th>
-                <th th:text="#{reservation.user}"></th>
                 <th th:text="#{reservation.car}"></th>
                 <th th:text="#{reservation.car.plate}"></th>
                 <th th:text="#{reservation.date.start}"></th>
                 <th th:text="#{reservation.date.end}"></th>
                 <th th:text="#{reservation.status}"></th>
-                <th th:text="#{reservation.action}"></th>
+                <th th:text="#{reservation.cancel}"></th>
                 <th th:text="#{reservation.invoice}"></th>
             </tr>
             </thead>
             <tbody>
             <tr class="align-middle" th:each="rsv : ${reservations}">
-                <td th:text="${rsv.id}"></td>
-                <td th:text="${rsv.user}"></td>
                 <td th:text="${rsv.car}"></td>
                 <td th:text="${rsv.plate}"></td>
                 <td th:text="${rsv.dateStart}"></td>
                 <td th:text="${rsv.dateEnd}"></td>
                 <td th:text="${rsv.status}"></td>
                 <td th:switch="${rsv.action}">
-                    <form th:action="@{'/reservations/' + ${rsv.id} + '/' + ${rsv.action}}" method="post">
-                        <button th:case="'finish'" class="btn btn-link p-0 align-baseline" type="submit" th:text="#{reservation.action.finish}"></button>
+                    <form th:action="@{'/user-reservations/' + ${rsv.id} + '/cancel'}" method="post">
                         <button th:case="'cancel'" class="btn btn-link p-0 align-baseline" type="submit" th:text="#{reservation.action.cancel}"></button>
                     </form>
                 </td>
                 <td th:switch="${rsv.invoiceAvailable}">
-                    <a th:case="true" th:href="@{'/reservations/invoice/' + ${rsv.id}}" th:text="#{reservation.invoice.download}"></a>
+                    <a th:case="true" th:href="@{'/user-reservations/invoice/' + ${rsv.id}}" th:text="#{reservation.invoice.download}"></a>
                     <span th:case="false" th:text="'-'"></span>
                 </td>
             </tr>
