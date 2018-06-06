@@ -2,7 +2,6 @@ package pl.beny.rental.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.beny.rental.model.Token;
 import pl.beny.rental.model.User;
 import pl.beny.rental.model.UserContext;
@@ -30,8 +29,8 @@ public class UserService extends BaseService<User> {
         return repository.existsByEmail(email);
     }
 
-    @Transactional
     public void create(User user) throws RentalException {
+        if (existsByEmail(user.getEmail())) throw new RentalException(RentalException.RentalErrors.USER_EXISTS);
         user.setRoles(Collections.singleton(RoleUtil.findUser()));
         user.setActive(false);
         user.setToken(UUID.randomUUID().toString());
@@ -42,14 +41,14 @@ public class UserService extends BaseService<User> {
     public void activate(User user) {
         user.setActive(true);
         user.setToken((Token) null);
-        saveAndFlush(user);
+        save(user);
     }
 
     public void activate(UserContext ctx, Long userId) throws RentalException {
         User user = findOneAdmin(ctx, userId);
         user.setActive(true);
         user.setToken((Token) null);
-        saveAndFlush(user);
+        save(user);
     }
 
     public User findByEmail(String email) throws RentalException {

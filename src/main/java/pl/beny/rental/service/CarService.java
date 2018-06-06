@@ -59,4 +59,13 @@ public class CarService extends BaseService<Car> {
         return repository.findById(carId).orElseThrow(() -> new RentalException(RentalException.RentalErrors.ITEM_NOT_EXISTS));
     }
 
+    public boolean existsByPlate(String plate) {
+        return repository.existsByPlate(plate);
+    }
+
+    public void create(Car car) throws RentalException {
+        if (existsByPlate(car.getPlate())) throw new RentalException(RentalException.RentalErrors.CAR_EXISTS);
+        save(car);
+    }
+
 }

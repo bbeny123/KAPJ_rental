@@ -45,6 +45,9 @@
             </tr>
             </tbody>
         </table>
+        <div class="text-center mt-2" sec:authorize="hasAnyAuthority('ADMIN','EMPLOYEE')">
+            <a class="btn btn-primary w-25 font-weight-bold" th:text="#{car.new.create}" th:href="@{/cars/new}"></a>
+        </div>
     </div>
 </div>
 </body>

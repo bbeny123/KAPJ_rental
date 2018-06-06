@@ -19,4 +19,6 @@ public interface CarRepository extends BaseRepository<Car> {
     @EntityGraph(value = Car.EntityGraphs.WITH_RESERVATIONS)
     Optional<Car> findById(Long id);
 
+    boolean existsByPlate(String plate);
+
 }

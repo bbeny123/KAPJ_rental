@@ -11,7 +11,8 @@ public class RentalException extends Exception {
         TOKEN_NOT_EXISTS(6, "The token does not exist in database", "error.token.not.exists", null),
         INVOICE_NOT_AVAILABLE(7, "Requested invoice is not available.", "error.invoice.not.available", null),
         CAR_NOT_RENTABLE(8, "Car is not rentable.", "error.car.not.rentable", null),
-        ROLE_NOT_EXISTS(9, "Role does not exist!", "error.role.not.exists", null);
+        ROLE_NOT_EXISTS(9, "Role does not exist!", "error.role.not.exists", null),
+        CAR_EXISTS(10, "Car with this plate already exists", "error.car.exists", "car");
 
         private int code;
         private String message;

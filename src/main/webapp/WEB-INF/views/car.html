@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
+    <script>activateCars();</script>
+    <form th:action="@{/cars/new}" method="post" class="mt-2 w-50">
+        <input class="mb-3 form-control" type="text" th:name="make" th:placeholder="#{car.new.make}" pattern="[A-Za-z][A-Za-z ]{,59}" required>
+        <input class="mb-3 form-control" type="text" th:name="model" th:placeholder="#{car.new.model}" pattern="[A-Za-z][A-Za-z ]{,59}" required>
+        <input class="mb-3 form-control" type="text" th:name="colour" th:placeholder="#{car.new.colour}" pattern="[A-Za-z][A-Za-z ]{,29}" required>
+        <input class="mb-3 form-control" type="text" th:name="plate" th:placeholder="#{car.new.plate}" pattern="[A-Z0-9][A-Z0-9 ]{,9}" >
+        <button class="btn btn-primary mb-2 w-100" type="submit" th:text="#{car.new.create}"></button>
+    </form>
+</div>
+</body>
+
+</html>

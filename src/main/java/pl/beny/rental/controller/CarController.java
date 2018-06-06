@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import pl.beny.rental.dto.CarRequest;
 import pl.beny.rental.dto.CarResponse;
 import pl.beny.rental.service.CarService;
 
@@ -39,6 +40,17 @@ public class CarController extends BaseController {
 	public String rent(@PathVariable("carId") Long carId) throws Exception {
 		carService.rent(getUserContext(), carId);
 		return viewName;
+	}
+
+	@GetMapping("/cars/new")
+	public String carsForm() {
+		return "car";
+	}
+
+	@PostMapping("/cars/new")
+	public String newCar(Model model, CarRequest carRequest) throws Exception {
+		carService.create(carRequest.getCar());
+		return responseInfo(viewName, model, "info.added");
 	}
 
 }

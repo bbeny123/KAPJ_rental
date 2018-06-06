@@ -39,8 +39,7 @@ public class RegistrationController extends BaseController {
 		if (isAuthenticated()) {
 			return redirect;
 		}
-	    if (!CaptchaUtil.checkCaptcha(captchaResponse)) throw new RentalException(RentalException.RentalErrors.CAPTCHA_ERROR);
-	    if (userService.existsByEmail(userRequest.getEmail())) throw new RentalException(RentalException.RentalErrors.USER_EXISTS);
+		if (!CaptchaUtil.checkCaptcha(captchaResponse)) throw new RentalException(RentalException.RentalErrors.CAPTCHA_ERROR);
 	    userService.create(userRequest.getUser(encoder));
 	    return responseInfo("login", model, "info.registered");
 	}
