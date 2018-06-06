@@ -24,7 +24,7 @@
         </form>
     </nav>
     <!--/*@thymesVar id="info" type="java.lang.String"*/-->
-    <label th:if="${info}" th:text="${info}" class="text-md-left text-danger font-weight-bold mt-2"></label>
+    <label th:if="${info}" th:utext="${#strings.replace(#strings.escapeXml(info),'&#10;','&lt;br&gt;')}" class="text-md-left text-danger font-weight-bold mt-2"></label>
 </div>
 </body>
 </html>

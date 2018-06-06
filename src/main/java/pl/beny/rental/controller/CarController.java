@@ -13,6 +13,7 @@ import pl.beny.rental.dto.CarRequest;
 import pl.beny.rental.dto.CarResponse;
 import pl.beny.rental.service.CarService;
 
+import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 @Controller
@@ -50,7 +51,7 @@ public class CarController extends BaseController {
 	}
 
 	@PostMapping("/cars/new")
-	public RedirectView newCar(RedirectAttributes attributes, CarRequest carRequest) throws Exception {
+	public RedirectView newCar(RedirectAttributes attributes, @Valid CarRequest carRequest) throws Exception {
 		carService.create(carRequest.getCar());
 		return responseInfo(url, attributes, "info.added");
 	}

@@ -14,6 +14,8 @@ import pl.beny.rental.service.UserService;
 import pl.beny.rental.util.CaptchaUtil;
 import pl.beny.rental.util.RentalException;
 
+import javax.validation.Valid;
+
 @Controller
 public class RegistrationController extends BaseController {
 
@@ -35,7 +37,7 @@ public class RegistrationController extends BaseController {
 	}
 
 	@PostMapping("/register")
-	public String register(Model model, RegistrationRequest userRequest, @RequestParam("g-recaptcha-response") String captchaResponse) throws Exception {
+	public String register(Model model, @Valid RegistrationRequest userRequest, @RequestParam("g-recaptcha-response") String captchaResponse) throws Exception {
 		if (isAuthenticated()) {
 			return redirect;
 		}

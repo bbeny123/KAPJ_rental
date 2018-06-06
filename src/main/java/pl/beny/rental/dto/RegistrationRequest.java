@@ -1,7 +1,11 @@
 package pl.beny.rental.dto;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.beny.rental.model.User;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 public class RegistrationRequest {
 
@@ -12,6 +16,9 @@ public class RegistrationRequest {
     private String city;
     private String phone;
 
+    @NotEmpty
+    @Email
+    @Length(max = 60)
     public String getEmail() {
         return email;
     }
@@ -20,6 +27,8 @@ public class RegistrationRequest {
         this.email = email;
     }
 
+    @NotEmpty
+    @Length(max = 255)
     public String getPassword() {
         return password;
     }
@@ -28,6 +37,8 @@ public class RegistrationRequest {
         this.password = password;
     }
 
+    @NotEmpty
+    @Length(max = 60)
     public String getFirstName() {
         return firstName;
     }
@@ -36,6 +47,8 @@ public class RegistrationRequest {
         this.firstName = firstName;
     }
 
+    @NotEmpty
+    @Length(max = 60)
     public String getLastName() {
         return lastName;
     }
@@ -44,6 +57,8 @@ public class RegistrationRequest {
         this.lastName = lastName;
     }
 
+    @NotEmpty
+    @Length(max = 60)
     public String getCity() {
         return city;
     }
@@ -52,6 +67,7 @@ public class RegistrationRequest {
         this.city = city;
     }
 
+    @Length(max = 30)
     public String getPhone() {
         return phone;
     }

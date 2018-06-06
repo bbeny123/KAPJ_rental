@@ -11,7 +11,7 @@
         <input class="mb-3 form-control" type="text" th:name="make" th:placeholder="#{car.new.make}" pattern="[A-Za-z][A-Za-z ]{,59}" required>
         <input class="mb-3 form-control" type="text" th:name="model" th:placeholder="#{car.new.model}" pattern="[A-Za-z][A-Za-z ]{,59}" required>
         <input class="mb-3 form-control" type="text" th:name="colour" th:placeholder="#{car.new.colour}" pattern="[A-Za-z][A-Za-z ]{,29}" required>
-        <input class="mb-3 form-control" type="text" th:name="plate" th:placeholder="#{car.new.plate}" pattern="[A-Z0-9][A-Z0-9 ]{,9}" >
+        <input class="mb-3 form-control" type="text" th:name="plate" th:placeholder="#{car.new.plate}" pattern="[A-Z0-9][A-Z0-9 ]{,9}" required>
         <button class="btn btn-primary mb-2 w-100" type="submit" th:text="#{car.new.create}"></button>
     </form>
 </div>
