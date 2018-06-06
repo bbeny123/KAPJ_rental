@@ -1,5 +1,6 @@
 package pl.beny.rental.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import pl.beny.rental.model.Car;
 
 public class CarResponse {
@@ -62,6 +63,7 @@ public class CarResponse {
         this.plate = plate;
     }
 
+    @JsonIgnore
     public boolean isAvailable() {
         return available;
     }
