@@ -2,16 +2,15 @@ package pl.beny.rental.util;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import pl.beny.rental.model.Reservation;
 
+import java.io.ByteArrayOutputStream;
 import java.time.temporal.ChronoUnit;
 
 public class PDFUtil {
 
-    public static ByteOutputStream getReservationInvoice(Reservation rsv) throws Exception {
-        ByteOutputStream result = new ByteOutputStream();
-
+    public static ByteArrayOutputStream getReservationInvoice(Reservation rsv) throws Exception {
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
         Document document = new Document();
         PdfWriter.getInstance(document, result);
 

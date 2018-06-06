@@ -31,11 +31,16 @@
                 <td th:text="${rsv.plate}"></td>
                 <td th:text="${rsv.dateStart}"></td>
                 <td th:text="${rsv.dateEnd}"></td>
-                <td th:text="${rsv.status}"></td>
+                <td th:switch="${rsv.status}">
+                    <form th:case="'WAITING'" th:action="@{'/reservations/' + ${rsv.id} + '/cancel'}" method="post">
+                        <button class="btn btn-link p-0 align-baseline" type="submit" th:text="#{reservation.action.waiting}"></button>
+                    </form>
+                    <span th:case="*" th:text="${rsv.status}"></span>
+                </td>
                 <td th:switch="${rsv.action}">
                     <form th:action="@{'/reservations/' + ${rsv.id} + '/' + ${rsv.action}}" method="post">
                         <button th:case="'finish'" class="btn btn-link p-0 align-baseline" type="submit" th:text="#{reservation.action.finish}"></button>
-                        <button th:case="'cancel'" class="btn btn-link p-0 align-baseline" type="submit" th:text="#{reservation.action.cancel}"></button>
+                        <button th:case="'approve'" class="btn btn-link p-0 align-baseline" type="submit" th:text="#{reservation.action.approve}"></button>
                     </form>
                 </td>
                 <td th:switch="${rsv.invoiceAvailable}">

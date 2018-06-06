@@ -9,6 +9,7 @@ import java.time.LocalDate;
 public class Reservation {
 
     public interface Actions {
+        String APPROVE = "approve";
         String CANCEL = "cancel";
         String FINISH = "finish";
     }

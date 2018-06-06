@@ -24,7 +24,7 @@ public class ReservationResponse {
         this.user = rsv.getUser().getIdFullName();
         this.car = rsv.getCar().getName();
         this.plate = rsv.getCar().getPlate();
-        this.action = Reservation.Status.ACTIVE.equals(rsv.getStatus()) ? Reservation.Actions.FINISH : Reservation.Status.WAITING.equals(rsv.getStatus()) ? Reservation.Actions.CANCEL : null;
+        this.action = Reservation.Status.ACTIVE.equals(rsv.getStatus()) ? Reservation.Actions.FINISH : Reservation.Status.WAITING.equals(rsv.getStatus()) ? Reservation.Actions.APPROVE : null;
         this.invoiceAvailable = Reservation.Status.FINISHED.equals(rsv.getStatus());
     }
 

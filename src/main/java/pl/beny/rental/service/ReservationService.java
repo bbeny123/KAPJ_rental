@@ -1,6 +1,5 @@
 package pl.beny.rental.service;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -12,6 +11,7 @@ import pl.beny.rental.util.PDFUtil;
 import pl.beny.rental.util.RentalException;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -31,14 +31,29 @@ public class ReservationService extends BaseService<Reservation> {
     }
 
     public void cancel(UserContext ctx, Long rsvId) throws RentalException {
-        changeStatus(ctx, rsvId, Reservation.Actions.CANCEL);
-    }
-
-    public void changeStatus(UserContext ctx, Long rsvId, String status) throws RentalException {
         Reservation rsv = findOne(rsvId);
         checkAuthorization(ctx, rsv);
         rsv.setDateEnd(LocalDate.now());
-        rsv.setStatus(status.equals(Reservation.Actions.CANCEL) ? Reservation.Status.CANCELED : Reservation.Status.FINISHED);
+        rsv.setStatus(Reservation.Status.CANCELED);
+        save(rsv);
+    }
+
+    public void changeStatus(UserContext ctx, Long rsvId, String status) throws RentalException {
+        if (Reservation.Actions.CANCEL.equals(status)) {
+            cancel(ctx, rsvId);
+        } else {
+            approveOrFinish(ctx, rsvId, status);
+        }
+    }
+
+    private void approveOrFinish(UserContext ctx, Long rsvId, String status) throws RentalException {
+        Reservation rsv = findOneEmployee(ctx, rsvId);
+        if (Reservation.Actions.APPROVE.equals(status)) {
+            rsv.setStatus(Reservation.Status.ACTIVE);
+        } else if (Reservation.Actions.FINISH.equals(status)) {
+            rsv.setDateEnd(LocalDate.now());
+            rsv.setStatus(Reservation.Status.FINISHED);
+        }
         saveEmployee(ctx, rsv);
     }
 
@@ -49,7 +64,7 @@ public class ReservationService extends BaseService<Reservation> {
             throw new RentalException(RentalException.RentalErrors.INVOICE_NOT_AVAILABLE);
         }
 
-        ByteOutputStream invoice = PDFUtil.getReservationInvoice(rsv);
+        ByteArrayOutputStream invoice = PDFUtil.getReservationInvoice(rsv);
         response.setContentType(MediaType.APPLICATION_PDF_VALUE);
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"invoice" + rsv.getId() + ".pdf\"");
         response.setContentLength(invoice.size());

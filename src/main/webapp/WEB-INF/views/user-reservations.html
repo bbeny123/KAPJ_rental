@@ -17,7 +17,6 @@
                 <th th:text="#{reservation.date.start}"></th>
                 <th th:text="#{reservation.date.end}"></th>
                 <th th:text="#{reservation.status}"></th>
-                <th th:text="#{reservation.cancel}"></th>
                 <th th:text="#{reservation.invoice}"></th>
             </tr>
             </thead>
@@ -27,11 +26,11 @@
                 <td th:text="${rsv.plate}"></td>
                 <td th:text="${rsv.dateStart}"></td>
                 <td th:text="${rsv.dateEnd}"></td>
-                <td th:text="${rsv.status}"></td>
-                <td th:switch="${rsv.action}">
-                    <form th:case="'cancel'" th:action="@{'/user-reservations/' + ${rsv.id} + '/cancel'}" method="post">
-                        <button class="btn btn-link p-0 align-baseline" type="submit" th:text="#{reservation.action.cancel}"></button>
+                <td th:switch="${rsv.status}">
+                    <form th:case="'WAITING'" th:action="@{'/user-reservations/' + ${rsv.id} + '/cancel'}" method="post">
+                        <button class="btn btn-link p-0 align-baseline" type="submit" th:text="#{reservation.action.waiting}"></button>
                     </form>
+                    <span th:case="*" th:text="${rsv.status}"></span>
                 </td>
                 <td th:switch="${rsv.invoiceAvailable}">
                     <a th:case="true" th:href="@{'/user-reservations/invoice/' + ${rsv.id}}" th:text="#{reservation.invoice.download}"></a>
