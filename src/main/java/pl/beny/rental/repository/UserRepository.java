@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Repository;
 import pl.beny.rental.model.User;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,5 +16,11 @@ public interface UserRepository extends BaseRepository<User> {
 
     @EntityGraph(value = User.EntityGraphs.WITH_ROLES)
     Optional<User> findOneByEmail(String email);
+
+    @EntityGraph(value = User.EntityGraphs.WITH_ROLES)
+    List<User> findAll();
+
+    @EntityGraph(value = User.EntityGraphs.WITH_ROLES)
+    Optional<User> findOneById(Long Id);
 
 }

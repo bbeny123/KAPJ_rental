@@ -61,7 +61,7 @@ public abstract class BaseService<T> {
         return findAll();
     }
 
-    public List<T> findAll() {
+    List<T> findAll() {
         return repository.findAll();
     }
 
@@ -70,16 +70,16 @@ public abstract class BaseService<T> {
         return findOne(id);
     }
 
-    public T findOneEmployee(UserContext ctx, Long id) throws RentalException {
+    T findOneEmployee(UserContext ctx, Long id) throws RentalException {
         checkEmployee(ctx);
         return findOne(id);
     }
 
-    public T findOne(Long id) throws RentalException {
+    T findOne(Long id) throws RentalException {
         return repository.findById(id).orElseThrow(() -> new RentalException(RentalException.RentalErrors.ITEM_NOT_EXISTS));
     }
 
-    private void checkAdmin(UserContext ctx) throws RentalException {
+    void checkAdmin(UserContext ctx) throws RentalException {
         if (!ctx.isAdmin()) throw new RentalException(RentalException.RentalErrors.NOT_AUTHORIZED);
     }
 

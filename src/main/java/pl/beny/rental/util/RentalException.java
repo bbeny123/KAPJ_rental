@@ -10,7 +10,8 @@ public class RentalException extends Exception {
         USER_NOT_EXISTS(5, "The e-mail does not exist in database", "error.user.not.exists", "token"),
         TOKEN_NOT_EXISTS(6, "The token does not exist in database", "error.token.not.exists", null),
         INVOICE_NOT_AVAILABLE(7, "Requested invoice is not available.", "error.invoice.not.available", null),
-        CAR_NOT_RENTABLE(7, "Car is not rentable.", "error.car.not.rentable", null);
+        CAR_NOT_RENTABLE(8, "Car is not rentable.", "error.car.not.rentable", null),
+        ROLE_NOT_EXISTS(9, "Role does not exist!", "error.role.not.exists", null);
 
         private int code;
         private String message;

@@ -5,12 +5,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.beny.rental.model.Token;
 import pl.beny.rental.model.User;
+import pl.beny.rental.model.UserContext;
 import pl.beny.rental.repository.UserRepository;
 import pl.beny.rental.util.MailUtil;
 import pl.beny.rental.util.RentalException;
 import pl.beny.rental.util.RoleUtil;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -29,30 +31,65 @@ public class UserService extends BaseService<User> {
     }
 
     @Transactional
-    public User create(User user) {
+    public void create(User user) throws RentalException {
         user.setRoles(Collections.singleton(RoleUtil.findUser()));
         user.setActive(false);
         user.setToken(UUID.randomUUID().toString());
         user = saveAndFlush(user);
         MailUtil.sendActivationEmail(user.getEmail(), user.getToken().getToken());
-        return user;
     }
 
-    public User activate(User user) {
+    public void activate(User user) {
         user.setActive(true);
         user.setToken((Token) null);
-        return saveAndFlush(user);
+        saveAndFlush(user);
+    }
+
+    public void activate(UserContext ctx, Long userId) throws RentalException {
+        User user = findOneAdmin(ctx, userId);
+        user.setActive(true);
+        user.setToken((Token) null);
+        saveAndFlush(user);
     }
 
     public User findByEmail(String email) throws RentalException {
         return repository.findByEmail(email).orElseThrow(() -> new RentalException(RentalException.RentalErrors.USER_NOT_EXISTS));
     }
 
-    public User resendToken(User user) {
+    public void resendToken(User user) {
         user.setToken(UUID.randomUUID().toString());
         user = saveAndFlush(user);
         MailUtil.sendActivationEmail(user.getEmail(), user.getToken().getToken());
-        return user;
+    }
+
+    @Override
+    public List<User> findAllAdmin(UserContext ctx) throws RentalException {
+        checkAdmin(ctx);
+        return repository.findAll();
+    }
+
+    public void changeRole(UserContext ctx, Long userId, String action, String role) throws RentalException {
+        checkAdmin(ctx);
+        User user = repository.findOneById(userId).orElseThrow(() -> new RentalException(RentalException.RentalErrors.USER_NOT_EXISTS));
+        if (user.getId().equals(ctx.getUser().getId())) {
+            throw new RentalException(RentalException.RentalErrors.NOT_AUTHORIZED);
+        }
+        if (User.Action.GRANT.equalsIgnoreCase(action)) {
+            grantRole(user, role);
+        } else if (User.Action.REVOKE.equalsIgnoreCase(action)) {
+            revokeRole(user, role);
+        }
+        saveAdmin(ctx, user);
+    }
+
+    private void grantRole(User user, String r) throws RentalException {
+        if(user.getRoles().stream().noneMatch(role -> role.getRole().getRole().equalsIgnoreCase(r))) {
+            user.getRoles().add(RoleUtil.findRole(r));
+        }
+    }
+
+    private void revokeRole(User user, String r) {
+        user.getRoles().removeIf(role -> role.getRole().getRole().equalsIgnoreCase(r));
     }
 
 }

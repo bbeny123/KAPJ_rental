@@ -15,16 +15,20 @@ public class RoleUtil {
         RoleUtil.roleService = roleService;
     }
 
-    public static Role findAdmin() {
+    public static Role findAdmin() throws RentalException {
         return roleService.findByRole(Role.Roles.ADMIN);
     }
 
-    public static Role findEmployee() {
+    public static Role findEmployee() throws RentalException {
         return roleService.findByRole(Role.Roles.EMPLOYEE);
     }
 
-    public static Role findUser() {
+    public static Role findUser() throws RentalException {
         return roleService.findByRole(Role.Roles.USER);
+    }
+
+    public static Role findRole(String role) throws RentalException {
+        return roleService.findByRole(Role.Roles.valueOf(role.toUpperCase()));
     }
 
 }

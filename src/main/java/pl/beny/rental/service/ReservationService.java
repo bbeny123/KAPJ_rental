@@ -49,6 +49,7 @@ public class ReservationService extends BaseService<Reservation> {
     private void approveOrFinish(UserContext ctx, Long rsvId, String status) throws RentalException {
         Reservation rsv = findOneEmployee(ctx, rsvId);
         if (Reservation.Actions.APPROVE.equals(status)) {
+            rsv.setDateStart(LocalDate.now());
             rsv.setStatus(Reservation.Status.ACTIVE);
         } else if (Reservation.Actions.FINISH.equals(status)) {
             rsv.setDateEnd(LocalDate.now());

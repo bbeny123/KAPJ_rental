@@ -15,6 +15,11 @@ public class User {
         String WITH_ROLES = "User.WITH_ROLES";
     }
 
+    public interface Action {
+        String GRANT = "grant";
+        String REVOKE = "revoke";
+    }
+
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Token token;
 
