@@ -20,20 +20,20 @@ public class ReservationController extends BaseController {
 
 	@Autowired
 	public ReservationController(ReservationService reservationService, MessageSource messageSource) {
-		super("redirect:/reservations", messageSource);
+		super("reservations", "/reservations", messageSource, true);
 		this.reservationService = reservationService;
 	}
 
 	@GetMapping("/reservations")
 	public String reservation(Model model) throws Exception {
 		model.addAttribute("reservations", reservationService.findAllEmployee(getUserContext()).stream().map(ReservationResponse::new).collect(Collectors.toList()));
-		return "reservations";
+		return viewName;
 	}
 
 	@PostMapping("/reservations/{rsvId}/{action}")
 	public String changeStatus(@PathVariable("rsvId") Long rsvId, @PathVariable("action") String action) throws Exception {
 		reservationService.changeStatus(getUserContext(), rsvId, action);
-		return viewName;
+		return redirectToUrl();
 	}
 
 	@GetMapping(value = "/reservations/invoice/{rsvId}")

@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 import pl.beny.rental.dto.CarRequest;
 import pl.beny.rental.dto.CarResponse;
 import pl.beny.rental.service.CarService;
@@ -20,26 +22,26 @@ public class CarController extends BaseController {
 
 	@Autowired
 	public CarController(CarService carService, MessageSource messageSource) {
-		super("redirect:/cars", messageSource);
+		super("cars", "/cars", messageSource, true);
 		this.carService = carService;
 	}
 
 	@GetMapping("/cars")
 	public String cars(Model model) {
 		model.addAttribute("cars", carService.findAll(getUserContext()).stream().map(CarResponse::new).collect(Collectors.toList()));
-		return "cars";
+		return viewName;
 	}
 
 	@PostMapping("/cars/{carId}/available/{available}")
 	public String changeAvailability(@PathVariable("carId") Long carId, @PathVariable("available") boolean available) throws Exception {
 		carService.changeAvailability(getUserContext(), carId, available);
-		return viewName;
+		return redirectToUrl();
 	}
 
 	@PostMapping("/cars/{carId}/rent")
 	public String rent(@PathVariable("carId") Long carId) throws Exception {
 		carService.rent(getUserContext(), carId);
-		return viewName;
+		return redirectToUrl();
 	}
 
 	@GetMapping("/cars/new")
@@ -48,9 +50,9 @@ public class CarController extends BaseController {
 	}
 
 	@PostMapping("/cars/new")
-	public String newCar(Model model, CarRequest carRequest) throws Exception {
+	public RedirectView newCar(RedirectAttributes attributes, CarRequest carRequest) throws Exception {
 		carService.create(carRequest.getCar());
-		return responseInfo(viewName, model, "info.added");
+		return responseInfo(url, attributes, "info.added");
 	}
 
 }

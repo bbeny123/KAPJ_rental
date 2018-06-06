@@ -11,13 +11,12 @@ public class HomeController extends BaseController {
 
     @Autowired
     public HomeController(MessageSource messageSource) {
-        super("index", messageSource);
+        super("index", "/", messageSource);
     }
 
     @GetMapping("/")
     public String home() {
         return viewName;
-
     }
 
     @RequestMapping

@@ -19,7 +19,7 @@ public class UserController extends BaseController {
 
 	@Autowired
 	public UserController(UserService userService, MessageSource messageSource) {
-		super("redirect:/users", messageSource);
+		super("users", "/users", messageSource, true);
 		this.userService = userService;
 	}
 
@@ -27,19 +27,19 @@ public class UserController extends BaseController {
 	public String users(Model model) throws Exception {
 		model.addAttribute("userId", getUserContext().getUser().getId());
 		model.addAttribute("users", userService.findAllAdmin(getUserContext()).stream().map(UserResponse::new).collect(Collectors.toList()));
-		return "users";
+		return viewName;
 	}
 
 	@PostMapping("/users/{userId}/activate")
 	public String activate(@PathVariable("userId") Long userId) throws Exception {
 		userService.activate(getUserContext(), userId);
-		return viewName;
+		return redirectToUrl();
 	}
 
 	@PostMapping("/users/{userId}/{action}/{role}")
-	public String activate(@PathVariable("userId") Long userId, @PathVariable("action") String action, @PathVariable("role") String role) throws Exception {
+	public String changeRole(@PathVariable("userId") Long userId, @PathVariable("action") String action, @PathVariable("role") String role) throws Exception {
 		userService.changeRole(getUserContext(), userId, action, role);
-		return viewName;
+		return redirectToUrl();
 	}
 
 }

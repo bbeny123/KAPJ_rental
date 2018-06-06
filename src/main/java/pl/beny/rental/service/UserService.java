@@ -52,10 +52,13 @@ public class UserService extends BaseService<User> {
     }
 
     public User findByEmail(String email) throws RentalException {
-        return repository.findByEmail(email).orElseThrow(() -> new RentalException(RentalException.RentalErrors.USER_NOT_EXISTS));
+        return repository.findByEmail(email).orElseThrow(() -> new RentalException(RentalException.RentalErrors.EMAIL_NOT_EXISTS));
     }
 
-    public void resendToken(User user) {
+    public void resendToken(User user) throws RentalException {
+        if (user.isActive()) {
+            throw new RentalException(RentalException.RentalErrors.USER_ALREADY_ACTIVE);
+        }
         user.setToken(UUID.randomUUID().toString());
         user = saveAndFlush(user);
         MailUtil.sendActivationEmail(user.getEmail(), user.getToken().getToken());

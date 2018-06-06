@@ -13,7 +13,7 @@ public class LoginController extends BaseController {
 
     @Autowired
     public LoginController(MessageSource messageSource) {
-        super("login", messageSource);
+        super("login", "/login", messageSource);
     }
 
     @GetMapping("/login")

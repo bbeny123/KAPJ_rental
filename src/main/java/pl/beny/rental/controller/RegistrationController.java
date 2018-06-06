@@ -23,7 +23,7 @@ public class RegistrationController extends BaseController {
 
 	@Autowired
 	public RegistrationController(UserService userService, TokenService tokenService, PasswordEncoder encoder, MessageSource messageSource) {
-		super("registration", messageSource);
+		super("registration", "/register", messageSource);
 		this.userService = userService;
 		this.tokenService = tokenService;
 		this.encoder = encoder;
