@@ -11,27 +11,27 @@ import java.util.List;
 @Service
 public abstract class BaseService<T> {
 
-    protected final BaseRepository<T> repository;
+    private final BaseRepository<T> repository;
 
     public BaseService(BaseRepository<T> repository) {
         this.repository = repository;
     }
 
     @Transactional
-    public T saveAdmin(UserContext ctx, T data) throws RentalException {
+    void saveAdmin(UserContext ctx, T data) throws RentalException {
         checkAdmin(ctx);
-        return save(data);
+        save(data);
     }
 
     @Transactional
-    public T saveEmployee(UserContext ctx, T data) throws RentalException {
+    void saveEmployee(UserContext ctx, T data) throws RentalException {
         checkEmployee(ctx);
-        return save(data);
+        save(data);
     }
 
     @Transactional
-    public T save(T data) {
-        return repository.save(data);
+    void save(T data) {
+        repository.save(data);
     }
 
     @Transactional
@@ -47,7 +47,7 @@ public abstract class BaseService<T> {
     }
 
     @Transactional
-    public T saveAndFlush(T data) {
+    T saveAndFlush(T data) {
         return repository.saveAndFlush(data);
     }
 
@@ -61,11 +61,11 @@ public abstract class BaseService<T> {
         return findAll();
     }
 
-    List<T> findAll() {
+    private List<T> findAll() {
         return repository.findAll();
     }
 
-    public T findOneAdmin(UserContext ctx, Long id) throws RentalException {
+    T findOneAdmin(UserContext ctx, Long id) throws RentalException {
         checkAdmin(ctx);
         return findOne(id);
     }

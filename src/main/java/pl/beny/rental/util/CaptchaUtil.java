@@ -1,7 +1,7 @@
 package pl.beny.rental.util;
 
 import org.springframework.web.client.RestTemplate;
-import pl.beny.rental.dto.CaptchaRepsonse;
+import pl.beny.rental.dto.CaptchaResponse;
 
 public class CaptchaUtil {
 
@@ -12,7 +12,7 @@ public class CaptchaUtil {
     public static boolean checkCaptcha(String response) {
         String URL = "";
         String SECRET = "";
-        return restTemplate.postForEntity(URL, "", CaptchaRepsonse.class, SECRET, response).getBody().isSuccess();
+        return restTemplate.postForEntity(URL, "", CaptchaResponse.class, SECRET, response).getBody().isSuccess();
     }
 
 }

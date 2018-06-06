@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import pl.beny.rental.model.Role;
 import pl.beny.rental.service.UserContextService;
 
 @Configuration
@@ -31,6 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/resources/**", "/", "/login/**", "/register/**", "/cars", "/rest/**").permitAll()
+                .antMatchers("/users/**").hasAuthority(Role.Roles.ADMIN.getRole())
+                .antMatchers("/reservations/**", "/cars/*/available/**").hasAnyAuthority(Role.Roles.ADMIN.getRole(), Role.Roles.EMPLOYEE.getRole())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

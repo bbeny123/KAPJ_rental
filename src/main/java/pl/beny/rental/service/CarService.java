@@ -55,7 +55,7 @@ public class CarService extends BaseService<Car> {
         save(car);
     }
 
-    public Car findById(Long carId) throws RentalException {
+    private Car findById(Long carId) throws RentalException {
         return repository.findById(carId).orElseThrow(() -> new RentalException(RentalException.RentalErrors.ITEM_NOT_EXISTS));
     }
 

@@ -1,6 +1,6 @@
 package pl.beny.rental.dto;
 
-public class CaptchaRepsonse {
+public class CaptchaResponse {
 
     private boolean success;
 
