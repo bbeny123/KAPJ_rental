@@ -10,11 +10,16 @@
             <a class="nav-item nav-link" id="users" th:href="@{/users}" sec:authorize="hasAuthority('ADMIN')" th:text="#{menu.users}"></a>
             <a class="nav-item nav-link" id="reservations" th:href="@{/reservations}" sec:authorize="hasAnyAuthority('ADMIN','EMPLOYEE')" th:text="#{menu.reservations}"></a>
         </div>
-        <div class="navbar-nav ml-auto" sec:authorize="!isAuthenticated()">
+        <div class="navbar-nav ml-auto">
+            <a class="flag-icon flag-icon-us mr-1 rounded" href="?lang=en"></a>
+            <a class="flag-icon flag-icon-pl rounded" href="?lang=pl"></a>
+            <a class="flag-icon flag-icon-fr ml-1 rounded" href="?lang=fr"></a>
+        </div>
+        <div class="navbar-nav" sec:authorize="!isAuthenticated()">
             <a class="nav-item nav-link" id="login" th:href="@{/login}" th:text="#{menu.login}"></a>
             <a class="nav-item nav-link" id="register" th:href="@{/register}" th:text="#{menu.register}"></a>
         </div>
-        <form name="logout" class="navbar-bar ml-auto" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()" >
+        <form name="logout" class="navbar-bar ml-2" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()" >
             <button class="btn btn-outline-danger" type="submit" th:text="#{menu.logout}"></button>
         </form>
     </nav>
